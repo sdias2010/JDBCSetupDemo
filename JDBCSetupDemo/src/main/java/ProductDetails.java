@@ -60,13 +60,23 @@ public class ProductDetails extends HttpServlet {
 				
 				
 				//CallableStatement and Stored procedure
-				CallableStatement stmt = conn.getConnection().prepareCall("{call add_product(?, ?)}");
-				stmt.setString(1, "new product");
-				stmt.setBigDecimal(2, new BigDecimal(1900.50));
-				stmt.executeUpdate();
-				out.println("Stored Procedure has been updated.<Br>");
+//				CallableStatement stmt = conn.getConnection().prepareCall("{call add_product(?, ?)}");
+//				stmt.setString(1, "new product");
+//				stmt.setBigDecimal(2, new BigDecimal(1900.50));
+//				stmt.executeUpdate();
+//				out.println("Stored Procedure has been updated.<Br>");
 				
-
+				//Insertion, Updation and Deletion of Database Records.
+				Statement stmt = conn.getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				
+				stmt.executeUpdate("insert into eproduct (name, price, date_added) values('New Apple', 14500.00, now())");
+				out.println("Executed an insert operation<br>");
+				
+				stmt.executeUpdate("update eproduct set price=2000 where name = 'New Apple'");
+				out.println("Executed and update operation<br>");
+				
+				stmt.executeUpdate("delete from eproduct where name = 'Apple'");
+				out.println("Executed a delete operation<br>");
 				
 				stmt.close();
 				
